@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		Pcoin Transfers
+    </title>
+    
+
+</head>
+<body>
+  <h1>Login</h1>
+  <form> 
+      <div class="title">Test local</div>
+      <div>
+          <input type="text" id="address">
+      </div>
+      <div id="checkaja">
+           
+      </div>
+      <input type="button" onclick="savetest()" value="save Now">
+      <input type="button" onclick="savefixtest()" value="save fix data Now">
+      <input type="button" onclick="removeit()" value="remove Now">
+      <input type="button" onclick="showlocal()" value="show Now">
+  </form>
+<script>
+  //localStorage.setItem("ptransaction", "test data");
+  function savetest(){
+    var data1 = document.getElementById("address");
+    localStorage.setItem("ptransaction", data1.value);
+    //localStorage.removeItem("ptransaction");
+    document.getElementById("checkaja").innerHTML = "Data Saved you can show it";
+  }
+  function savefixtest(){
+    var data1 = {"tdata":[{"_id":"6210a7a815b822a3d18013bd","index":0,"prevhash":"0","timestamps":"1645258317758","saddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":0,"hash":"ef18a931af278a820a3bfe87ddd9824926db491cc685a722ff9c1ebc56e1cd6f"},{"_id":"6210b274df22d8fd4aacd45e","index":1,"prevhash":"ef18a931af278a820a3bfe87ddd9824926db491cc685a722ff9c1ebc56e1cd6f","timestamps":"1645261426720","saddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":20,"hash":"c75044fa99bdcbc37fcb2ab86dfe108348428f8ee771b80908a747c0ec0c2e03"},{"_id":"6210d549a3c951817d0fb2c9","index":2,"prevhash":"c75044fa99bdcbc37fcb2ab86dfe108348428f8ee771b80908a747c0ec0c2e03","timestamps":"1645270343763","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","tamount":20,"hash":"068ccddf0515b6325d2a6ffdd8c251b4ccbceb59418f79341bc59009a12c496f"},{"_id":"6211da5bc8dbdca75a976872","index":3,"prevhash":"068ccddf0515b6325d2a6ffdd8c251b4ccbceb59418f79341bc59009a12c496f","timestamps":"1645337177655","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","tamount":30,"hash":"8046ed31b04919d6b4d4ddc1b28b61529d3aee814dcd9c3908df09384a1dda25"},{"_id":"6211db9f7d9f83926ea86ca2","index":4,"prevhash":"8046ed31b04919d6b4d4ddc1b28b61529d3aee814dcd9c3908df09384a1dda25","timestamps":"1645337501092","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":50,"hash":"3abdedc4695e271b0390c1433b317074f9377101de6d2398077a2b1296181f9c"},{"_id":"6211dc8cf2efcf386f8481ac","index":5,"prevhash":"3abdedc4695e271b0390c1433b317074f9377101de6d2398077a2b1296181f9c","timestamps":"1645337738599","saddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":50,"hash":"4f83e02c75d57ec8fffb1056a095b04ef805befcb4804c941cc40f7742cc66eb"},{"_id":"6211ec204d15cfeed133d69e","index":6,"prevhash":"4f83e02c75d57ec8fffb1056a095b04ef805befcb4804c941cc40f7742cc66eb","timestamps":"1645341726528","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":30,"hash":"a91e1db36a8c7c7bd4e8cd341848f649ffa218b70a3a95aaf5b104ff1044b3a1"},{"_id":"6211ec674d15cfeed133d69f","index":7,"prevhash":"a91e1db36a8c7c7bd4e8cd341848f649ffa218b70a3a95aaf5b104ff1044b3a1","timestamps":"1645341797181","saddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":30,"hash":"0ea97ce14215cfbd7939d38efaed9c5157ccfa0309d437a54fbfa2a06b512d6e"},{"_id":"6211ed144d15cfeed133d6a1","index":8,"prevhash":"0ea97ce14215cfbd7939d38efaed9c5157ccfa0309d437a54fbfa2a06b512d6e","timestamps":"1645341969889","saddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","daddress":"049efcfcb48b0faac2c2df11742bc9f087e9e9525386599c6b3bd2f0cb8d472fdff3f89b7cfb00a523c01d9843c6e41c11d8f8cb4855fe7a30681608ed3294ee18","tamount":30,"hash":"9d31746e16676013e3ba4e029b688bf09920665984295675ea6f50699a637e10"},{"_id":"6211ed6e4d15cfeed133d6a2","index":9,"prevhash":"9d31746e16676013e3ba4e029b688bf09920665984295675ea6f50699a637e10","timestamps":"1645342060603","saddress":"049efcfcb48b0faac2c2df11742bc9f087e9e9525386599c6b3bd2f0cb8d472fdff3f89b7cfb00a523c01d9843c6e41c11d8f8cb4855fe7a30681608ed3294ee18","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":50,"hash":"d0c9df704af7de18ea30a3a937d388b8631fe550a90a14d80a145cc5a53ccd86"},{"_id":"6211ef084d15cfeed133d6a3","index":10,"prevhash":"d0c9df704af7de18ea30a3a937d388b8631fe550a90a14d80a145cc5a53ccd86","timestamps":"1645342469892","saddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","daddress":"049efcfcb48b0faac2c2df11742bc9f087e9e9525386599c6b3bd2f0cb8d472fdff3f89b7cfb00a523c01d9843c6e41c11d8f8cb4855fe7a30681608ed3294ee18","tamount":10,"hash":"e5f5650effd7dbfec4a488176d944124c4b6edff17771f4dda192d604382d432"},{"_id":"621b8cb73968f1d3965a2d49","index":11,"prevhash":"e5f5650effd7dbfec4a488176d944124c4b6edff17771f4dda192d604382d432","timestamps":"1645972660929","saddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":20,"hash":"d976979cac7b12b18c6d0c449ab1004c094a720e9027dd52b16d59f51c352a5f"},{"_id":"621b8d313968f1d3965a2d4b","index":12,"prevhash":"d976979cac7b12b18c6d0c449ab1004c094a720e9027dd52b16d59f51c352a5f","timestamps":"1645972782898","saddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":40,"hash":"fb7d29109bccfe242bdb2e4a41e4b5d409c34887ca5a1249c2847c8c6847becf"},{"_id":"622228e357f03604bc2c4912","index":13,"prevhash":"fb7d29109bccfe242bdb2e4a41e4b5d409c34887ca5a1249c2847c8c6847becf","timestamps":"1646405857848","saddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":50,"hash":"88e20c13938dd3b9a2382e4bd0b6aa36d72cacb20a420418646dab4ba0aedbfb"},{"_id":"622364c55e31121e67a02d20","index":14,"prevhash":"88e20c13938dd3b9a2382e4bd0b6aa36d72cacb20a420418646dab4ba0aedbfb","timestamps":"1646486723248","saddress":"045e8da391e1e7dc97c47a7ac3715affe3b3f8d5cfd376ce1889690e3f817439fcad019160c9d2a68a3bd98727f232685a5d233867c35693d1b000474e7cb63b1f","daddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","tamount":60,"hash":"326d608d56638b5e0e2c64118817b331cacb6d21a8b7b03534fc2ae8da80f3b8"},{"_id":"622559a97780ea04f5cdc9e8","index":15,"prevhash":"326d608d56638b5e0e2c64118817b331cacb6d21a8b7b03534fc2ae8da80f3b8","timestamps":"1646614951224","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","tamount":50,"hash":"a19b7fd27b63181c47177867a4e6b9b3a1fbaac6379c9a5b87f9938c9060820f"},{"_id":"622559f67780ea04f5cdc9ea","index":16,"prevhash":"a19b7fd27b63181c47177867a4e6b9b3a1fbaac6379c9a5b87f9938c9060820f","timestamps":"1646615028684","saddress":"049efcfcb48b0faac2c2df11742bc9f087e9e9525386599c6b3bd2f0cb8d472fdff3f89b7cfb00a523c01d9843c6e41c11d8f8cb4855fe7a30681608ed3294ee18","daddress":"04e16e5fc364c3682f685960b280b5df00996d8e3a606880c8dae42f6bfd2cb0c45997829c38dff7af90c06aef52a0c46a56df1a73f424f6e3d136e2b785daab82","tamount":60,"hash":"411c31da54a70ca54f61d581801f78c0cae05931cf3d61ecb4df70500c896f8a"},{"_id":"62349dc05ebed9de24c0be71","index":17,"prevhash":"411c31da54a70ca54f61d581801f78c0cae05931cf3d61ecb4df70500c896f8a","timestamps":"1647615421896","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":10,"hash":"abff8baf7faf0e55a22349b3f6675358786c6269ad8f8f58c4d996d286216e88"},{"_id":"62349f05b5680ee9390d37b8","index":18,"prevhash":"abff8baf7faf0e55a22349b3f6675358786c6269ad8f8f58c4d996d286216e88","timestamps":"1647615747305","saddress":"04a4c1a74b399e631041e294baf24c3fc6923e4c02487a7bbe89263c9b41297ed43426dc33b174a2cc35db3f6dbf24445e6ebb06d65424e9e5c615d445598d17fb","daddress":"0448f60339e0b3e64717e01d608e613a94a89a5bedfbea12b05169d6327a9719f7f470b56d42081aceb92e0f8b41a19d0c5e2821686f813efb5f50995998a784cc","tamount":10,"hash":"448716e813c374521219279da3ef2ed1e09391356e0353e4f44ea3914b077a01"}]};
+    //localStorage.setItem("ptransaction", JSON.stringify(data1));
+    //localStorage.removeItem("ptransaction");
+    localStorage.setItem("ptransaction", "test data");
+    document.getElementById("checkaja").innerHTML = "Fix Data Saved you can show it";
+  }
+  function removeit(){
+    
+    localStorage.removeItem("ptransaction");
+    document.getElementById("checkaja").innerHTML = "Data removed you can show it";
+  }
+  function showlocal(){
+    var data1 = localStorage.getItem('ptransaction');
+    if(data1 == null){
+      document.getElementById("checkaja").innerHTML = "null ini";
+    }
+    else{
+      document.getElementById("checkaja").innerHTML = data1;
+    }
+    
+  }
+</script>
+</body>
+</html>

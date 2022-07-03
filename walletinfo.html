@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		wallet info
+    </title>
+    
+
+</head>
+	<body>
+      <h1>Wallet Info</h1>
+      <form>
+        <label>Wallet Address (Private Key)</label><br>
+        <input type="text" id="walletaddress"><br>
+        <input type="button" onclick="showwallet()" value="Show Info"><br>
+        <div id="checkaja"></div>
+      </form>
+      <script>
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
+            var el;
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "walletinfo"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("checkaja").innerHTML="Amount in Pcoin: "+fromserver["message"];
+            }
+            };
+            const showwallet = () =>{
+                var walletaddress = document.getElementById("walletaddress").value;
+                let walletpack = {
+                type: "walletinfo",
+                message: walletaddress,
+                };
+                ws.send(JSON.stringify(walletpack));
+            }
+      </script>
+	</body>
+</html>

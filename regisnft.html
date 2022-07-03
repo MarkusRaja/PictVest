@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		Sign Up NFT Account
+    </title>
+    
+
+</head>
+	<body>
+      <h1>Sign Up NFT Account</h1>
+      <a href="./create-wallet">Create Your Wallet Address HERE</a><br>
+      <a href="./nftshop">Go to PICTVEST HERE</a><br><br>
+      <p>Note:<br>
+      Your account will registered on your local storage only so you can't use your account what you already registered before on the other device.</p>
+      <form>
+        <label>New Username</label><br>
+        <input type="text" id="nftuname"><br>
+        <label>New Password</label><br>
+        <input type="text" id="nftupass"><br>
+        <label>Your Wallet Address (Private Address)</label><br>
+        <input type="text" id="saddress"><br>
+        <input type="button" onclick="delacc()" value="Delete account Now">
+        <input type="button" onclick="createacc()" value="Sign Up Now"><br>
+        <div id="checkaja"></div>
+      </form>
+      <script>
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
+            var el;
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "nftdata1"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("checkaja").innerHTML=fromserver["message"];
+            }
+            };
+            const createacc = () =>{
+                var newnftuname = document.getElementById("nftuname").value;
+                var newnftupass = document.getElementById("nftupass").value;
+                var newsaddress = document.getElementById("saddress").value;
+                let newacc = {
+                nftuname: newnftuname,
+                nftupass: newnftupass,
+                saddress: newsaddress
+                };
+                var nftacc = localStorage.getItem('nftacc');
+                if (nftacc == null || nftacc == ""){
+                    let first = {
+                        "accounts": [newacc]
+                    };
+                    localStorage.setItem("nftacc", JSON.stringify(first));
+                }
+                else if(nftacc != null && nftacc != ""){
+                    var obj = JSON.parse(nftacc);
+                    acc = obj["accounts"];
+                    var thesaddress = acc.find(el => el.nftuname === document.getElementById("nftuname").value && el.nftupass === document.getElementById("nftupass").value || el.saddress === document.getElementById("saddress").value);
+                    if(thesaddress == null || thesaddress == ""){
+                      
+                      obj.accounts.push(newacc);
+                      localStorage.setItem("nftacc", JSON.stringify(obj));
+                      document.getElementById("checkaja").innerHTML ='Registered you can <a href="/nftshop">Login Here</a>';
+                    }
+                    else if(thesaddress != null && thesaddress != ""){
+                      document.getElementById("checkaja").innerHTML ="You already register this account or this wallet address on your local";
+                    }
+                }
+            }
+            const delacc = () =>{
+                localStorage.removeItem("nftacc");
+                document.getElementById("checkaja").innerHTML = "Data removed you can show it";
+            }
+      </script>
+	</body>
+</html>

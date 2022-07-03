@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		wallet
+    </title>
+    
+
+</head>
+	<body>
+      <h1>Wallet generator</h1>
+      <a href="./createacc">Create Your PICTVEST account HERE</a>
+      <form>
+        <label>New Wallet Name</label><br>
+        <input type="text" id="walletname"><br>
+        <input type="button" onclick="createwallet()" value="Create Now"><br>
+        <div id="checkaja"></div>
+      </form>
+      <script>
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
+            var el;
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "walletdata"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("checkaja").innerHTML=fromserver["message"];
+            }
+            };
+            const createwallet = () =>{
+                var newname = document.getElementById("walletname").value;
+                let walletpack = {
+                type: "walletdata",
+                message: newname,
+                };
+                ws.send(JSON.stringify(walletpack));
+            }
+            function showlocal(){
+              var data1 = localStorage.getItem('ptransaction');
+              var objd = JSON.parse(data1);
+              var lgn = objd.length;
+              document.getElementById("checkaja").innerHTML = objd[lgn-1]["hash"];
+            }
+      </script>
+	</body>
+</html>

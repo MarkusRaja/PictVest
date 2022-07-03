@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		Create NFT
+    </title>
+    
+
+</head>
+	<body>
+      <h1>Create NFT</h1>
+      <form>
+        <a href="https://assetmanagers.000webhostapp.com/">Find and Upload Your Asset on Here</a><br>
+        <a href="./nftshop">Go to PICTVEST HERE</a><br>
+        <label>New NFT Name</label><br>
+        <input type="text" id="nftname"><br>
+        <label>Your Wallet Address (Private Address)</label><br>
+        <input type="text" id="saddress"><br>
+        <label>Your Asset ID on Asset Manager</label><br>
+        <input type="text" id="asset_id"><br>
+        <label>Your Image URL on Asset Manager</label><br>
+        <input type="text" id="asset_url"><br>
+        <label>Your Image Color</label><br>
+        <input type="text" id="asset_color"><br>
+        <label>Your Image Description</label><br>
+        <input type="text" id="asset_desc"><br>
+        <label>Your Start Bid</label><br>
+        <input type="text" id="asset_bid"><br>
+        <input type="button" onclick="createnft()" value="Create Now"><br>
+        <div id="checkaja"></div>
+      </form>
+      <script>
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var ws = new WebSocket(HOST);
+            var el;
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "nftdata"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("checkaja").innerHTML=fromserver["message"];
+            }
+            };
+            const createnft = () =>{
+                var newnftname = document.getElementById("nftname").value;
+                var newsaddress = document.getElementById("saddress").value;
+                var newasset_id = document.getElementById("asset_id").value;
+                var newasset_url = document.getElementById("asset_url").value;
+                var newasset_color = document.getElementById("asset_color").value;
+                var newasset_desc = document.getElementById("asset_desc").value;
+                var newasset_bid = document.getElementById("asset_bid").value;
+                let nftpack = {
+                type: "nftdata",
+                nftname: newnftname,
+                saddress: newsaddress,
+                asset_id: newasset_id,
+                asset_url: newasset_url,
+                asset_color: newasset_color,
+                asset_desc: newasset_desc,
+                asset_bid: newasset_bid,
+                };
+                ws.send(JSON.stringify(nftpack));
+                document.getElementById("checkaja").innerHTML="Added";
+            }
+      </script>
+	</body>
+</html>

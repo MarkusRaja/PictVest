@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		Moralis tester
+    </title>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+
+</head>
+	<body>
+      <h1>Moralis N Heroku</h1>
+      <form>
+        <input type="text" id="inptest"><br>
+        <input type="button" onclick="createwallet()" value="Add Monster Now"><br>
+        <label>Amount of Transfer</label><br>
+        <input type="text" id="amounttkn"><br>
+        <label>Destination Address on Mumbai Network</label><br>
+        <input type="text" id="destadd"><br>
+        <input type="button" onclick="transmumbai()" value="Transfer Now"><br>
+        <div id="checkaja"></div>
+        <input type="button" onclick="showlocal()" value="show Monster Now">
+        <input type="button" onclick="showprice()" value="show Price Now">
+        <button id="btn-login">Moralis Metamask Login</button>
+        <button id="btn-logout">Logout</button>
+        <label id="font2">Picture:</label><br>
+        <input type="file" id="spict"><br>
+        <input type="button" onclick="testupl()" value="Test file upload Now">
+      </form>
+	</body>
+</html>

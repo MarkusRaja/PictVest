@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+    PICTVEST
+    </title>
+    
+
+</head>
+<style>
+  table, th, td {
+    border:1px solid black;
+  }
+  </style>
+	<body>
+      <div id="placenya">
+        <a href="./createacc">Create Your PICTVEST account HERE</a>
+        <form>
+          <label>Username</label><br>
+          <input type="text" id="nftuname"><br>
+          <label>Password</label><br>
+          <input type="text" id="nftupass"><br>
+          <input type="button" onclick="logaja()" value="Login Now">
+        </form>
+      </div>
+      <div id="checkaja"></div>
+      <script>
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var logstat = 0;
+            var thebalance = 0;
+            var ws = new WebSocket(HOST);
+            var thesaddress = "";
+            var nft_id = "";
+            var el;
+            var idnft;
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "transdata"){
+              console.log('received: '+fromserver["saddress"]);
+              let br = document.createElement("br")
+              document.getElementById("checkaja").innerHTML += "Transaction Timestamp: "+fromserver["timestamps"]+"Source Wallet Address: "+fromserver["saddress"]+"Destination Wallet Address: "+fromserver["daddress"]+"Transfer Amounts: "+fromserver["tamount"]+"Transfer Hash: "+fromserver["newhash"]+"<br>";
+              cekbalance();
+            }
+            if(fromserver["type"] == "formtrans"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("placenya").innerHTML = fromserver["message"];
+            }
+            if(fromserver["type"] == "balancelog"){
+              console.log('received: '+fromserver["message"]);
+              thebalance = fromserver["message"];
+              document.getElementById("pcoinamount").innerHTML = "Your Balances on Your Wallet: "+fromserver["message"]+" Pcoin";
+            }
+            if(fromserver["type"] == "nftload"){
+              idnft = fromserver["nft_ids"];
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("products").innerHTML = fromserver["message"];
+            }
+            if(fromserver["type"] == "nftdetail"){
+              nft_id = fromserver["nft_id"];
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("products").innerHTML = fromserver["message"];
+              cektopbid();
+            }
+            if(fromserver["type"] == "idtoclient"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("stats").innerHTML = "<br>Congrats your transaction completed The ID of this Asset: "+fromserver["message"];
+            }
+            if(fromserver["type"] == "cektopbid"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("topbid").innerHTML = fromserver["message"];
+            }
+            if(fromserver["type"] == "transnft"){
+              console.log('received: '+fromserver["message"]);
+              cekbalance();
+              if (nft_id != ""){
+                cekbalance();
+                cektopbid();
+              }
+            }
+            if(fromserver["type"] == "nfttrans"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("products").innerHTML = fromserver["message"];
+            }
+            };
+            const transferNow = () =>{
+                let transpack = {
+                type: "transdata",
+                saddress: thesaddress,
+                daddress: document.getElementById("daddress").value,
+                tamount: document.getElementById("tamount").value,
+                balance: thebalance,
+                };
+                ws.send(JSON.stringify(transpack));
+            }
+            function getSaddress(obj, uname, upass){
+              return obj.filter(
+                function(obj) {
+                  return obj.nftuname == uname && obj.nftupass == upass;
+                }
+              );
+            }
+
+            const logaja = () =>{
+              var nftacc = localStorage.getItem('nftacc');
+              if (nftacc == null || nftacc == ""){
+                document.getElementById("checkaja").innerHTML ="There is no account in your local";
+                }
+                else if(nftacc != null && nftacc != ""){
+                    var acc = JSON.parse(nftacc);
+                    var obj = acc["accounts"];
+                    thesaddress = obj.find(el => el.nftuname === document.getElementById("nftuname").value && el.nftupass === document.getElementById("nftupass").value);
+                    if(thesaddress == null || thesaddress == ""){
+                      document.getElementById("checkaja").innerHTML ="Your username and password not match on your local";
+                    }
+                    else if(thesaddress != null && thesaddress != ""){
+                      document.getElementById("checkaja").innerHTML ="";
+                      thesaddress = thesaddress["saddress"];
+                      let logpack = {
+                      type: "lognft",
+                      saddress: thesaddress,
+                      };
+                      ws.send(JSON.stringify(logpack));
+                      logstat = 1;
+                    }
+                    //thesaddress = getSaddress(obj, document.getElementById("nftuname").value, document.getElementById("nftupass").value);
+                    
+                }
+               
+            }
+            const cekbalance = () =>{
+                if(logstat == 1){
+                  let logpack = {
+                  type: "cekbalance",
+                  saddress: thesaddress,
+                  };
+                  ws.send(JSON.stringify(logpack));
+                }
+                
+            }
+            const cektopbid = () =>{
+                if(logstat == 1){
+                  let logpack = {
+                  type: "cektopbid",
+                  targetnft_id: nft_id,
+                  };
+                  ws.send(JSON.stringify(logpack));
+                }
+                
+            }
+            const buyPge = (thenft_id) =>{
+                document.getElementById("products").innerHTML = "Loading NFT Data...";
+                document.getElementById("topbid").innerHTML = "Top Holder should shown in here"
+                var sendid  = thenft_id;
+                nft_id = idnft[sendid];
+                let logpack = {
+                type: "nftdetail",
+                targetnft_id: nft_id,
+                };
+                ws.send(JSON.stringify(logpack));
+            }
+            const bidPro = () =>{
+                var bidamount = document.getElementById("bid_amount").value;
+                document.getElementById("stats").innerHTML = "Please wait we are processed your transaction...";
+                let logpack = {
+                type: "bidnft",
+                saddress: thesaddress,
+                targetnft_id: nft_id,
+                balance: thebalance,
+                bid_amount: bidamount,
+                };
+                ws.send(JSON.stringify(logpack));
+            }
+            const listmynft = () =>{
+                document.getElementById("products").innerHTML = "Loading your transactions...";
+                document.getElementById("stats").innerHTML = "";
+                document.getElementById("topbid").innerHTML = "";
+                let logpack = {
+                type: "nfttrans",
+                saddress: thesaddress,
+                };
+                ws.send(JSON.stringify(logpack));
+            }
+            const home = () =>{
+                document.getElementById("products").innerHTML = "Loading NFT Data...";
+                document.getElementById("stats").innerHTML = "";
+                document.getElementById("topbid").innerHTML = "";
+                let logpack = {
+                type: "home"
+                };
+                ws.send(JSON.stringify(logpack));
+            }
+      </script>
+	</body>
+</html>

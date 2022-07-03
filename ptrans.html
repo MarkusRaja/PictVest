@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+		Pcoin Transfers
+    </title>
+    
+
+</head>
+	<body>
+    <div id="checkvalid"></div>
+      <div id="placenya">
+        <form>
+          <label>Your Wallet Address (Private Address)</label><br>
+          <input type="text" id="saddress"><br>
+          <input type="button" onclick="logaja()" value="Login Now">
+        </form>
+        <input type="button" onclick="removeit()" value="remove Now">
+      </div>
+      <div id="checkaja"></div>
+      <script>
+            function removeit(){
+    
+              localStorage.removeItem("ptransaction");
+              document.getElementById("checkaja").innerHTML = "Data removed you can show it";
+            }
+            var HOST = location.origin.replace(/^http/, 'ws')
+            var logstat = 0;
+            var thebalance = 0;
+            var ws = new WebSocket(HOST);
+            var thesaddress = "";
+            var el;
+            var tempptrans;
+            function inspTrans(){
+              console.log("fungsi jalan");
+              
+              console.log("sampai akhir");
+            }
+            ws.onmessage = function (event) {
+            var fromserver = JSON.parse(event.data);
+            if(fromserver["type"] == "transdata"){
+              console.log('received: '+fromserver["saddress"]);
+              let br = document.createElement("br")
+              document.getElementById("checkaja").innerHTML += "Transaction Timestamp: "+fromserver["timestamps"]+"Source Wallet Address: "+fromserver["saddress"]+"Destination Wallet Address: "+fromserver["daddress"]+"Transfer Amounts: "+fromserver["tamount"]+"Transfer Hash: "+fromserver["newhash"]+"<br>";
+              cekbalance();
+              getspdata();
+            }
+            if(fromserver["type"] == "formtrans"){
+              console.log('received: '+fromserver["message"]);
+              document.getElementById("placenya").innerHTML = fromserver["message"];
+              
+            }
+            if(fromserver["type"] == "balancelog"){
+              console.log('received: '+fromserver["message"]);
+              thebalance = fromserver["message"];
+              document.getElementById("pcoinamount").innerHTML = "Your Balances: "+fromserver["message"]+" Pcoin";
+            }
+            if(fromserver["type"] == "replaceptrans"){
+              console.log(JSON.stringify(fromserver["ptrans"]));
+              var ptransdata = JSON.stringify(fromserver["ptrans"]);
+              localStorage.setItem("ptransaction", ptransdata);
+            }
+            if(fromserver["type"] == "logcheck"){
+              var ptransactiondata = localStorage.getItem('ptransaction');
+              if(ptransactiondata == null || ptransactiondata == ""){
+                document.getElementById("checkvalid").innerHTML = 'Your Local Data is null your local data will be replaced by Super Peer Data';
+                var ptransdata = JSON.stringify(fromserver["ptrans"]);
+                localStorage.setItem("ptransaction", ptransdata);
+              }
+              else if(ptransactiondata != null && ptransactiondata != ""){
+                var ptransdata = JSON.stringify(fromserver["ptrans"]);
+                var transobj = JSON.parse(ptransactiondata);
+                var lgnptrans = transobj.length;
+                var lgn = fromserver["ptrans"].length;
+                if (transobj[lgnptrans-1]["hash"] != fromserver["ptrans"][lgn-1]["hash"]){
+                  tempptrans = transobj;
+                  document.getElementById("checkvalid").innerHTML = 'Your Local Data not Same with Super Peer Data your local data will be replace by Super Peer Data <input type="button" onclick="compareit()" value="Click Here to see the detail">';
+                  localStorage.setItem("ptransaction", ptransdata);
+                }
+              }
+            }
+            };
+            const transferNow = () =>{
+              var ptransactiondata = localStorage.getItem('ptransaction');
+              if(ptransactiondata == null || ptransactiondata == ""){
+                let transpack = {
+                type: "transdata",
+                saddress: thesaddress,
+                daddress: document.getElementById("daddress").value,
+                tamount: document.getElementById("tamount").value,
+                balance: thebalance,
+                ptransaction: "nothing",
+                };
+                ws.send(JSON.stringify(transpack));
+              }
+              else if(ptransactiondata != null && ptransactiondata != ""){
+                let transpack = {
+                type: "transdata",
+                saddress: thesaddress,
+                daddress: document.getElementById("daddress").value,
+                tamount: document.getElementById("tamount").value,
+                balance: thebalance,
+                ptransaction: JSON.parse(ptransactiondata),
+                };
+                ws.send(JSON.stringify(transpack));
+              }
+                
+            }
+            const logaja = () =>{
+               thesaddress = document.getElementById("saddress").value;
+                let logpack = {
+                type: "logpack",
+                saddress: thesaddress,
+                };
+                ws.send(JSON.stringify(logpack));
+                logstat = 1;
+            }
+            const cekbalance = () =>{
+                if(logstat == 1){
+                  let logpack = {
+                  type: "cekbalance",
+                  saddress: thesaddress,
+                  };
+                  ws.send(JSON.stringify(logpack));
+                }
+                
+            }
+            const getspdata = () =>{
+                if(logstat == 1){
+                  let logpack = {
+                  type: "getspdata"
+                  };
+                  ws.send(JSON.stringify(logpack));
+                }
+                
+            }
+            const compareit = () =>{
+              var ptransactiondata = localStorage.getItem('ptransaction');
+              document.getElementById("checkvalid").innerHTML = "Your Local Data: "+JSON.stringify(tempptrans)+"<br>Super Peer Data: "+ptransactiondata;
+                
+            }
+      </script>
+	</body>
+</html>
